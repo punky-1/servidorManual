@@ -1,36 +1,32 @@
 const http = require("http");
 // Leer el archivo
 const fs = require('fs').promises;
+// const path = require('node:path'); 
 require('dotenv').config()
 
+const types = ['html', 'css', 'js', 'json', 'jpg'];
+
+
 const host = 'localhost';
-console.log(process.env.PUERTO)
 const port = process.env.PUERTO ;
 
-
 const requestListener = function (req, res) {
-    // // Cargar los archivos readFile(__dirname +)
-    // fs.readFile(__dirname + "/pages/pagina.html")
-    // .then(contents => {
-    //     res.setHeader("Content-Type", "text/html");
-    //     res.writeHead(200);
-    //     res.end(contents);
-    // })
-    // .catch(err => {
-    //     res.writeHead(500);
-    //     res.end(err);
-    //     return;
-    // });
-    // res.setHeader("Content-Type", "text/html");
+
+    res.setHeader("Content-Type", types);
     if (req.url=== '/') {
         fs.readFile(__dirname + "/pages/pagina.html")
         .then(contents => {
+
+
             res.writeHead(200);
             res.end(contents);
         })
-    } else if (req.url ==='/libros') {
-        res.write("hola libro")
-        res.end()
+    } else if (req.url ==='/contacto') {
+        fs.readFile(__dirname + "/pages/contacto.html")
+        .then(n=>{
+            res.writeHead(200);
+            res.end(n)
+        })
     }
 };
 
