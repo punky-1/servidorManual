@@ -1,9 +1,11 @@
 const http = require("http");
 // Leer el archivo
 const fs = require('fs').promises;
+require('dotenv').config()
 
 const host = 'localhost';
-const port = 8000;
+console.log(process.env.PUERTO)
+const port = process.env.PUERTO ;
 
 
 const requestListener = function (req, res) {
@@ -19,10 +21,10 @@ const requestListener = function (req, res) {
     //     res.end(err);
     //     return;
     // });
+    // res.setHeader("Content-Type", "text/html");
     if (req.url=== '/') {
         fs.readFile(__dirname + "/pages/pagina.html")
         .then(contents => {
-           res.setHeader("Content-Type", "text/html");
             res.writeHead(200);
             res.end(contents);
         })
@@ -34,5 +36,9 @@ const requestListener = function (req, res) {
 
 const server = http.createServer(requestListener);
 server.listen(port, host, () => {
-    console.log(`servidor http://${host}:${port}`);
+    try {
+        console.log(`Servidor corriendo en http://${host}:${port}`);
+    } catch (error) {
+        console.log(error)
+    }
 });
